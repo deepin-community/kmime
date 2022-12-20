@@ -1,0 +1,21 @@
+#!/usr/bin/make -f
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+include /usr/share/dpkg/pkg-info.mk
+
+AbiVirtualPackageVersion = $(call dpkg_late_eval,AbiVirtualPackageVersion,echo '${DEB_VERSION_UPSTREAM}' | sed -e 's/\.[0-9]\+$$//')
+pkgs_lib = $(filter-out %-dev %-dbg %-bin %-data,$(filter lib%,$(shell dh_listpackages)))
+
+%:
+	dh $@ --with kf5
+
+override_dh_makeshlibs:
+	for pkg in $(pkgs_lib); do \
+		name=$$( echo "$${pkg}" | sed -e 's/abi[0-9]\+\s*//'); \
+		echo "ABI:VirtualPackage=$${name}-${AbiVirtualPackageVersion}" >> debian/$${pkg}.substvars; \
+		dh_makeshlibs -p$${pkg} -V "$${pkg} (>= $(DEB_VERSION_EPOCH_UPSTREAM)), $${name}-${AbiVirtualPackageVersion}"; \
+	done
+
+override_dh_auto_test:
+	- dh_auto_test --no-parallel

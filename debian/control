@@ -1,0 +1,67 @@
+Source: kmime
+Section: libs
+Priority: optional
+Maintainer: Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Uploaders: Norbert Preining <norbert@preining.info>,
+           Sandro Knauß <hefee@debian.org>,
+Build-Depends: cmake (>= 3.16~),
+               debhelper-compat (= 13),
+               extra-cmake-modules (>= 5.83.0~),
+               libkf5codecs-dev (>= 5.83.0~),
+               libkf5i18n-dev (>= 5.83.0~),
+               pkg-kde-tools (>> 0.15.15),
+               qtbase5-dev (>= 5.15.0~),
+Standards-Version: 4.6.0
+Homepage: https://invent.kde.org/pim/kmime
+Vcs-Browser: https://salsa.debian.org/qt-kde-team/kde/kmime
+Vcs-Git: https://salsa.debian.org/qt-kde-team/kde/kmime.git
+Rules-Requires-Root: no
+
+Package: libkf5mime-data
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends}
+Description: Arch independent data for library for handling MIME data
+ This library provides an API for handling MIME data. MIME (Multipurpose
+ Internet Mail Extensions) is an Internet Standard that extends the format
+ of e-mail to support text in character sets other than US-ASCII, non-text
+ attachments, multi-part message bodies, and header information in non-ASCII
+ character sets.
+ .
+ This package contains the arch independent data for KMime.
+
+Package: libkf5mime-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends: libkf5codecs-dev (>= 5.83.0~),
+         libkf5i18n-dev (>= 5.83.0~),
+         libkf5mime5abi1 (= ${binary:Version}),
+         qtbase5-dev (>= 5.15.0~),
+         ${misc:Depends},
+Description: library for handling MIME data - development files
+ This library provides an API for handling MIME data. MIME (Multipurpose
+ Internet Mail Extensions) is an Internet Standard that extends the format
+ of e-mail to support text in character sets other than US-ASCII, non-text
+ attachments, multi-part message bodies, and header information in non-ASCII
+ character sets.
+ .
+ This package contains the development files.
+
+Package: libkf5mime5abi1
+X-Debian-ABI: 1
+X-CMake-Target: KF5Mime
+Architecture: any
+Multi-Arch: same
+Depends: libkf5mime-data (= ${source:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends},
+Provides: ${ABI:VirtualPackage}
+Description: library for handling MIME data
+ This library provides an API for handling MIME data. MIME (Multipurpose
+ Internet Mail Extensions) is an Internet Standard that extends the format
+ of e-mail to support text in character sets other than US-ASCII, non-text
+ attachments, multi-part message bodies, and header information in non-ASCII
+ character sets.
+ .
+ This package is part of the KDE Development Platform PIM libraries module.
