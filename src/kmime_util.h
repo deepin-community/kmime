@@ -80,6 +80,12 @@ KMIME_EXPORT extern QByteArray unfoldHeader(const QByteArray &header);
 KMIME_EXPORT extern QByteArray unfoldHeader(const char *header, size_t headerSize);
 
 /**
+  Folds the given header if necessary.
+  @param header The header to fold.
+*/
+KMIME_EXPORT extern QByteArray foldHeader(const QByteArray &header);
+
+/**
   Tries to extract the header with name @p name from the string
   @p src, unfolding it if necessary.
 
@@ -101,7 +107,7 @@ KMIME_EXPORT extern QByteArray extractHeader(const QByteArray &src,
 
   @param s source string containing CRLF's
 
-  @return the string with CRLF's substitued for LF's
+  @return the string with CRLF's substituted for LF's
   @see CRLFtoLF(const char*) LFtoCRLF
 */
 KMIME_EXPORT extern QByteArray CRLFtoLF(const QByteArray &s);
@@ -115,7 +121,7 @@ KMIME_EXPORT extern QByteArray CRLFtoLF(const QByteArray &s);
 
   @param s source string containing CRLF's
 
-  @return the string with CRLF's substitued for LF's
+  @return the string with CRLF's substituted for LF's
   @see CRLFtoLF(const QByteArray&) LFtoCRLF
 */
 KMIME_EXPORT extern QByteArray CRLFtoLF(const char *s);
@@ -130,7 +136,7 @@ KMIME_EXPORT extern QByteArray CRLFtoLF(const char *s);
 
   @param s source string containing CRLF's
 
-  @return the string with CRLF's substitued for LF's
+  @return the string with CRLF's substituted for LF's
   @see CRLFtoLF(const QByteArray&) LFtoCRLF
 */
 KMIME_EXPORT extern QByteArray LFtoCRLF(const QByteArray &s);
@@ -144,7 +150,7 @@ KMIME_EXPORT extern QByteArray LFtoCRLF(const QByteArray &s);
 
   @param s source string containing CR's
 
-  @return the string with CR's substitued for LF's
+  @return the string with CR's substituted for LF's
   @see CRtoLF(const QByteArray&) CRtoLF
 */
 KMIME_EXPORT extern QByteArray CRtoLF(const char *s);
@@ -159,7 +165,7 @@ KMIME_EXPORT extern QByteArray CRtoLF(const char *s);
 
   @param s source string containing CR's
 
-  @return the string with CR's substitued for LF's
+  @return the string with CR's substituted for LF's
   @see CRtoLF(const QByteArray&) CRtoLF
 */
 KMIME_EXPORT extern QByteArray CRtoLF(const QByteArray &s);

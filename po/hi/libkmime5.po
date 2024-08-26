@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libkmime\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-19 02:42+0100\n"
+"POT-Creation-Date: 2021-12-14 00:45+0000\n"
 "PO-Revision-Date: 2021-06-27 14:20+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: kde-hindi\n"
@@ -21,30 +21,29 @@ msgstr ""
 "X-Generator: Lokalize 21.04.2\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: kmime_dateformatter.cpp:250
+#: kmime_dateformatter.cpp:247
 #, kde-format
 msgctxt "invalid time specified"
 msgid "unknown"
 msgstr "अज्ञात"
 
-#: kmime_dateformatter.cpp:266
+#: kmime_dateformatter.cpp:263
 #, kde-format
 msgid "Today %1"
 msgstr "आज %1"
 
-#: kmime_dateformatter.cpp:270
+#: kmime_dateformatter.cpp:267
 #, kde-format
 msgid "Yesterday %1"
 msgstr "कल %1"
 
-#: kmime_dateformatter.cpp:275
+#: kmime_dateformatter.cpp:272
 #, kde-format
 msgctxt "1. weekday, 2. time"
 msgid "%1 %2"
 msgstr "%1 %2"
 
 #: kmime_mdn.cpp:50
-#, kde-format
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "displayed. This is no guarantee that the message has been read or understood."
@@ -52,8 +51,7 @@ msgstr ""
 "यह सन्देश ${date} को ${to} को \"${subject}\" विषय के साथ प्रदर्शित किया गयाथा। "
 "इसका कोई आश्वासन नहीं की इस सन्देश को पढ़ा या समझा गया है।"
 
-#: kmime_mdn.cpp:56
-#, kde-format
+#: kmime_mdn.cpp:55
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "deleted unseen. This is no guarantee that the message will not be \"undeleted"
@@ -63,8 +61,7 @@ msgstr ""
 "था। इसका कोई आश्वासन नहीं की यह सन्देश बाद में वापस नहीं आएगा और वह बाद में पढ़ा नहीं "
 "जाएगा।"
 
-#: kmime_mdn.cpp:63
-#, kde-format
+#: kmime_mdn.cpp:61
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "dispatched. This is no guarantee that the message will not be read later on."
@@ -72,8 +69,7 @@ msgstr ""
 "यह सन्देश ${date} को ${to} को \"${subject}\" विषय के साथ भेज दिया गया है। इसका "
 "कोई आश्वासन नहीं की यह सन्देश बाद में पढ़ा नहीं जाएगा।"
 
-#: kmime_mdn.cpp:69
-#, kde-format
+#: kmime_mdn.cpp:66
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "processed by some automatic means."
@@ -81,8 +77,7 @@ msgstr ""
 "${date} को ${to} को \"${subject}\" विषय के साथ भेजे गए सन्देश स्वचलित माध्यम से "
 "संसाधित हो गया है।"
 
-#: kmime_mdn.cpp:74
-#, kde-format
+#: kmime_mdn.cpp:70
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "acted upon. The sender does not wish to disclose more details to you than "
@@ -91,8 +86,7 @@ msgstr ""
 "${date} को ${to} को \"${subject}\" विषय के साथ भेजे गए सन्देश पर कारवाई हो गई है। "
 "प्रेषक आपको इससे आगे और कुछ बताना नहीं चाहता।"
 
-#: kmime_mdn.cpp:80
-#, kde-format
+#: kmime_mdn.cpp:75
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "
 "${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "

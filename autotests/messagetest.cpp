@@ -48,7 +48,7 @@ void MessageTest::testMainBodyPart()
     // converted to a single-part, deleting the other content!
     msg2->clearContents(false);
 
-    // mulitpart/alternative
+    // multipart/alternative
     msg->contentType()->setMimeType("multipart/alternative");
     msg->addContent(html);
     msg->addContent(text);
@@ -57,7 +57,7 @@ void MessageTest::testMainBodyPart()
     QCOMPARE(msg->mainBodyPart("text/plain"), text);
     QCOMPARE(msg->mainBodyPart("text/html"), html);
 
-    // mulitpart/alternative inside multipart/mixed
+    // multipart/alternative inside multipart/mixed
     auto *msg3 = new Message();
     msg3->contentType()->setMimeType("multipart/mixed");
     msg3->addContent(msg);
@@ -511,7 +511,7 @@ void MessageTest::testEncapsulatedMessages()
     QCOMPARE(encapsulated->decodedText(false, false),
              QLatin1String("This is the encapsulated message body."));
     QCOMPARE(encapsulated.data(), messageContent->bodyAsMessage().data());
-    QCOMPARE(encapsulated.data(), messageContent->contents().first());
+    QCOMPARE(encapsulated.data(), messageContent->contents().constFirst());
     QCOMPARE(encapsulated->parent(), messageContent);
     QVERIFY(!encapsulated->isTopLevel());
     QCOMPARE(encapsulated->topLevel(), msg.data());
@@ -595,11 +595,7 @@ void MessageTest::testReturnSameMail()
 {
     KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("dontchangemail.mbox"));
     QFile file(QLatin1String(TEST_DATA_DIR) + QLatin1String("/mails/dontchangemail.mbox"));
-    const bool ok = file.open(QIODevice::ReadOnly);
-    if (!ok) {
-        qWarning() << file.fileName() << "not found";
-    }
-    Q_ASSERT(ok);
+    QVERIFY(file.open(QIODevice::ReadOnly | QIODevice::Text));
     QByteArray fileContent = file.readAll();
     QCOMPARE(msg->encodedContent(), fileContent);
     QCOMPARE(msg->decodedText(), QLatin1String(""));

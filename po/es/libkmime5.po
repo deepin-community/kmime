@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libkmime\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-19 02:42+0100\n"
+"POT-Creation-Date: 2021-12-14 00:45+0000\n"
 "PO-Revision-Date: 2016-01-07 13:45+0100\n"
 "Last-Translator: Javier Vinal <fjvinal@gmail.com>\n"
 "Language-Team: Spanish <l10n-kde-es@kde.org>\n"
@@ -21,30 +21,29 @@ msgstr ""
 "X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: kmime_dateformatter.cpp:250
+#: kmime_dateformatter.cpp:247
 #, kde-format
 msgctxt "invalid time specified"
 msgid "unknown"
 msgstr "desconocido"
 
-#: kmime_dateformatter.cpp:266
+#: kmime_dateformatter.cpp:263
 #, kde-format
 msgid "Today %1"
 msgstr "Hoy %1"
 
-#: kmime_dateformatter.cpp:270
+#: kmime_dateformatter.cpp:267
 #, kde-format
 msgid "Yesterday %1"
 msgstr "Ayer %1"
 
-#: kmime_dateformatter.cpp:275
+#: kmime_dateformatter.cpp:272
 #, kde-format
 msgctxt "1. weekday, 2. time"
 msgid "%1 %2"
 msgstr "%1 %2"
 
 #: kmime_mdn.cpp:50
-#, kde-format
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "displayed. This is no guarantee that the message has been read or understood."
@@ -53,8 +52,7 @@ msgstr ""
 "«${subject}». No se garantiza que se haya leído ni entendido el contenido "
 "del mensaje."
 
-#: kmime_mdn.cpp:56
-#, kde-format
+#: kmime_mdn.cpp:55
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "deleted unseen. This is no guarantee that the message will not be \"undeleted"
@@ -64,8 +62,7 @@ msgstr ""
 "asunto «${subject}». No se garantiza que el mensaje se recupere y se vuelve "
 "a leer más tarde."
 
-#: kmime_mdn.cpp:63
-#, kde-format
+#: kmime_mdn.cpp:61
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "dispatched. This is no guarantee that the message will not be read later on."
@@ -73,8 +70,7 @@ msgstr ""
 "Se ha despachado el mensaje para ${to} enviado el ${date} con el asunto "
 "${subject}. No se garantiza que el mensaje no se lea más tarde."
 
-#: kmime_mdn.cpp:69
-#, kde-format
+#: kmime_mdn.cpp:66
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "processed by some automatic means."
@@ -82,8 +78,7 @@ msgstr ""
 "Se ha procesado con algún medio automático el mensaje para ${to} que envió "
 "el ${date} con el asunto ${subject}."
 
-#: kmime_mdn.cpp:74
-#, kde-format
+#: kmime_mdn.cpp:70
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "acted upon. The sender does not wish to disclose more details to you than "
@@ -92,8 +87,7 @@ msgstr ""
 "Se ha recibido el mensaje que envió para ${to} el ${date} con el asunto "
 "${subject}. El remitente no quiere proporcionar más detalles."
 
-#: kmime_mdn.cpp:80
-#, kde-format
+#: kmime_mdn.cpp:75
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "
 "${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "

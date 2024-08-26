@@ -20,14 +20,13 @@
 
 #include <KCharsets>
 
-#include <KCodecs/KCodecs>
+#include <KCodecs>
 
 #include <QTextCodec>
 #include <QMap>
-#include <QStringList>
 
-#include <ctype.h> // for isdigit
 #include <cassert>
+#include <cctype> // for isdigit
 
 using namespace KMime;
 using namespace KMime::Types;
@@ -431,7 +430,8 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
 
             const char *oldscursor = scursor;
             QString tmp;
-            QByteArray lang, charset;
+            QByteArray lang;
+            QByteArray charset;
             if (*scursor++ == '?') {
                 --scursor;
                 if (parseEncodedWord(scursor, send, tmp, lang, charset)) {
@@ -550,7 +550,8 @@ bool parsePhrase(const char *&scursor, const char *const send,
     } found = None;
 
     QString tmp;
-    QByteArray lang, charset;
+    QByteArray lang;
+    QByteArray charset;
     QPair<const char *, int> tmpAtom;
     const char *successfullyParsed = nullptr;
     // only used by the encoded-word branch
@@ -1230,7 +1231,7 @@ static bool parseParameter(const char *&scursor, const char *const send,
     //
     // note that rfc2231 handling is out of the scope of this function.
     // Therefore we return the attribute as QByteArray and the value as
-    // (start,length) tupel if we see that the value is encoded
+    // (start,length) tuple if we see that the value is encoded
     // (trailing asterisk), for parseParameterList to decode...
 
     eatCFWS(scursor, send, isCRLF);
@@ -1506,7 +1507,8 @@ bool parseParameterListWithCharset(const char *&scursor,
         RFC2231
     };
 
-    QMap<QString, QStringOrQPair>::Iterator it, end = rawParameterList.end();
+    QMap<QString, QStringOrQPair>::Iterator it;
+    QMap<QString, QStringOrQPair>::Iterator end = rawParameterList.end();
 
     for (it = rawParameterList.begin() ; it != end ; ++it) {
         if (attribute.isNull() || !it.key().startsWith(attribute)) {
@@ -1984,7 +1986,9 @@ bool parseDateTime(const char *&scursor, const char *const send,
     //
     // time
     //
-    int maybeHour, maybeMinute, maybeSecond;
+    int maybeHour;
+    int maybeMinute;
+    int maybeSecond;
     long int secsEastOfGMT;
     bool timeZoneKnown = true;
 

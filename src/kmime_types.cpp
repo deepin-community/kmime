@@ -40,7 +40,7 @@ static inline QString QUrl_fromAce_wrapper(const QString &domain)
 static QString addr_spec_as_string(const AddrSpec &as, bool pretty)
 {
     if (as.isEmpty()) {
-        return QString();
+      return {};
     }
 
     static const QChar dotChar = QLatin1Char('.');
@@ -220,8 +220,9 @@ QVector<KMime::Types::Mailbox> Mailbox::listFrom7BitString(const QByteArray& s)
 
 QString Mailbox::listToUnicodeString(const QVector<Mailbox>& mailboxes)
 {
-    if (mailboxes.size() == 1) // QStringList free fast-path for the common case
+    if (mailboxes.size() == 1) { // QStringList free fast-path for the common case
         return mailboxes.at(0).prettyAddress();
+    }
 
     QStringList rv;
     rv.reserve(mailboxes.count());
