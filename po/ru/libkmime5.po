@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libkmime\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-19 02:42+0100\n"
+"POT-Creation-Date: 2021-12-14 00:45+0000\n"
 "PO-Revision-Date: 2010-12-04 22:33+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -23,30 +23,29 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 
-#: kmime_dateformatter.cpp:250
+#: kmime_dateformatter.cpp:247
 #, kde-format
 msgctxt "invalid time specified"
 msgid "unknown"
 msgstr "неизвестное"
 
-#: kmime_dateformatter.cpp:266
+#: kmime_dateformatter.cpp:263
 #, kde-format
 msgid "Today %1"
 msgstr "Сегодня %1"
 
-#: kmime_dateformatter.cpp:270
+#: kmime_dateformatter.cpp:267
 #, kde-format
 msgid "Yesterday %1"
 msgstr "Вчера %1"
 
-#: kmime_dateformatter.cpp:275
+#: kmime_dateformatter.cpp:272
 #, kde-format
 msgctxt "1. weekday, 2. time"
 msgid "%1 %2"
 msgstr "%1 %2"
 
 #: kmime_mdn.cpp:50
-#, kde-format
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "displayed. This is no guarantee that the message has been read or understood."
@@ -54,8 +53,7 @@ msgstr ""
 "Было показано письмо, отправленное ${date} ${to} с темой «${subject}». Нет "
 "гарантии, что письмо было прочитано или понято."
 
-#: kmime_mdn.cpp:56
-#, kde-format
+#: kmime_mdn.cpp:55
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "deleted unseen. This is no guarantee that the message will not be \"undeleted"
@@ -65,8 +63,7 @@ msgstr ""
 "«${subject}». Нет гарантии, что удалённое письмо будет позднее восстановлено "
 "и прочитано."
 
-#: kmime_mdn.cpp:63
-#, kde-format
+#: kmime_mdn.cpp:61
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "dispatched. This is no guarantee that the message will not be read later on."
@@ -74,8 +71,7 @@ msgstr ""
 "Было обработано письмо, отправленное ${date} ${to} с темой «${subject}». Нет "
 "гарантии, что письмо будет позднее прочитано."
 
-#: kmime_mdn.cpp:69
-#, kde-format
+#: kmime_mdn.cpp:66
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "processed by some automatic means."
@@ -83,8 +79,7 @@ msgstr ""
 "Письмо, отправленное ${date} ${to} с темой «${subject}», было обработано "
 "автоматически."
 
-#: kmime_mdn.cpp:74
-#, kde-format
+#: kmime_mdn.cpp:70
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "acted upon. The sender does not wish to disclose more details to you than "
@@ -94,8 +89,7 @@ msgstr ""
 "произведены какие-то действия. Отправитель не хотел, чтобы было раскрыто "
 "больше информации о действиях над письмом."
 
-#: kmime_mdn.cpp:80
-#, kde-format
+#: kmime_mdn.cpp:75
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "
 "${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "

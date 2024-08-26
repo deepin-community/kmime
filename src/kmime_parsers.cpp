@@ -28,7 +28,9 @@ bool MultiPart::parse()
 {
     QByteArray b = "--" + m_boundary;
     QByteArray part;
-    int pos1 = 0, pos2 = 0, blen = b.length();
+    int pos1 = 0;
+    int pos2 = 0;
+    int blen = b.length();
 
     m_parts.clear();
 
@@ -102,7 +104,7 @@ NonMimeParser::NonMimeParser(const QByteArray &src) :
 {
 }
 
-NonMimeParser::~NonMimeParser() {}
+NonMimeParser::~NonMimeParser() = default;
 
 /**
  * try to guess the mimetype from the file-extension
@@ -110,7 +112,8 @@ NonMimeParser::~NonMimeParser() {}
 
 QByteArray NonMimeParser::guessMimeType(const QByteArray &fileName)
 {
-    QByteArray tmp, mimeType;
+    QByteArray tmp;
+    QByteArray mimeType;
 
     if (!fileName.isEmpty()) {
         int pos = fileName.lastIndexOf('.');
@@ -161,16 +164,25 @@ UUEncoded::UUEncoded(const QByteArray &src, const QByteArray &subject) :
 bool UUEncoded::parse()
 {
     int currentPos = 0;
-    bool success = true, firstIteration = true;
+    bool success = true;
+    bool firstIteration = true;
 
     const auto srcStr = QString::fromLatin1(m_src);
     const QRegularExpression beginRegex(QStringLiteral("begin [0-9][0-9][0-9]"));
     const QRegularExpression subjectRegex(QStringLiteral("[0-9]+/[0-9]+"));
 
     while (success) {
-        int beginPos = currentPos, uuStart = currentPos, endPos = 0, lineCount = 0, MCount = 0, pos = 0, len = 0;
-        bool containsBegin = false, containsEnd = false;
-        QByteArray tmp, fileName;
+        int beginPos = currentPos;
+        int uuStart = currentPos;
+        int endPos = 0;
+        int lineCount = 0;
+        int MCount = 0;
+        int pos = 0;
+        int len = 0;
+        bool containsBegin = false;
+        bool containsEnd = false;
+        QByteArray tmp;
+        QByteArray fileName;
 
         if ((beginPos = srcStr.indexOf(beginRegex, currentPos)) > -1 &&
                 (beginPos == 0 || m_src.at(beginPos - 1) == '\n')) {
@@ -242,7 +254,7 @@ bool UUEncoded::parse()
                 fileName = "";
             }
             m_filenames.append(fileName);
-            //everything beetween "begin" and "end" is uuencoded
+            //everything between "begin" and "end" is uuencoded
             m_bins.append(m_src.mid(uuStart, endPos - uuStart + 1));
             m_mimeTypes.append(guessMimeType(fileName));
             firstIteration = false;
@@ -311,7 +323,8 @@ bool YENCEncoded::parse()
     int currentPos = 0;
     bool success = true;
     while (success) {
-        int beginPos = currentPos, yencStart = currentPos;
+        int beginPos = currentPos;
+        int yencStart = currentPos;
         bool containsPart = false;
         QByteArray fileName;
 
@@ -364,7 +377,8 @@ bool YENCEncoded::parse()
                 break;
             }
 
-            int partBegin, partEnd;
+            int partBegin;
+            int partEnd;
             if (containsPart) {
                 if (!yencMeta(meta, "part", &m_partNr)) {
                     success = false;

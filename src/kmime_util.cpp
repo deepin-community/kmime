@@ -18,15 +18,14 @@
 #include "kmime_warning.h"
 
 #include <config-kmime.h>
-// #include <kdefakes.h> // for strcasestr
 
 #include <KCharsets>
 #include <QCoreApplication>
+#include <QRegularExpression>
 
-
-#include <ctype.h>
-#include <time.h>
-#include <stdlib.h>
+#include <cctype>
+#include <cstdlib>
+#include <ctime>
 
 using namespace KMime;
 
@@ -177,11 +176,14 @@ QByteArray unfoldHeader(const char *header, size_t headerSize)
     result.reserve(headerSize);
 
     const char *end = header + headerSize;
-    const char *pos = header, *foldBegin = nullptr, *foldMid = nullptr, *foldEnd = nullptr;
+    const char *pos = header;
+    const char *foldBegin = nullptr;
+    const char *foldMid = nullptr;
+    const char *foldEnd = nullptr;
     while ((foldMid = strchr(pos, '\n')) && foldMid < end) {
         foldBegin = foldEnd = foldMid;
         // find the first space before the line-break
-        while (foldBegin) {
+        while (foldBegin > header) {
             if (!QChar::isSpace(*(foldBegin - 1))) {
                 break;
             }
@@ -205,7 +207,7 @@ QByteArray unfoldHeader(const char *header, size_t headerSize)
         }
 
         result.append(pos, foldBegin - pos);
-        if (foldEnd < end - 1) {
+        if (foldBegin != pos && foldEnd < end - 1) {
             result += ' ';
         }
         pos = foldEnd;
@@ -219,6 +221,100 @@ QByteArray unfoldHeader(const char *header, size_t headerSize)
 QByteArray unfoldHeader(const QByteArray &header)
 {
     return unfoldHeader(header.constData(), header.size());
+}
+
+// state machine used by foldHeader()
+struct HeaderContext {
+    unsigned int isEscapePair : 1;
+    unsigned int isQuotedStr : 1;
+
+    HeaderContext() {
+        isEscapePair = isQuotedStr = 0;
+    }
+
+    void push(char c) {
+        if (c == '\"' && !isEscapePair) {
+            ++isQuotedStr;
+        } else if (c == '\\' || isEscapePair) {
+            ++isEscapePair;
+        }
+    }
+};
+
+QByteArray foldHeader(const QByteArray &header)
+{
+    // RFC 5322 section 2.1.1. "Line Length Limits" says:
+    //
+    // "Each line of characters MUST be no more than 998 characters, and
+    //  SHOULD be no more than 78 characters, excluding the CRLF."
+    const int maxLen = 78;
+
+    if (header.length() <= maxLen) {
+        return header;
+    }
+
+    // fast forward to header body
+    int pos = header.indexOf(':') + 1;
+    if (pos <= 0 || pos >= header.length()) {
+        return header;
+    }
+
+    // prepare for mutating header
+    QByteArray hdr = header;
+
+    // There are positions that are eligible for inserting FWS but discouraged
+    // (e.g. existing white space within a quoted string), and there are
+    // positions which are recommended for inserting FWS (e.g. after comma
+    // separator of an address list).
+    int eligible = pos;
+    int recommended = pos;
+
+    // reflects start position of "current line" in byte array
+    int start = 0;
+
+    HeaderContext ctx;
+
+    for (; true; ++pos) {
+        if (pos - start > maxLen && eligible) {
+            // Fold line preferably at recommended position, at eligible position
+            // otherwise.
+            const int fws = recommended ? recommended : eligible;
+            hdr.insert(fws, '\n');
+            // We started a new line, so reset.
+            if (eligible <= fws) {
+                eligible = 0;
+            } else {
+                ++eligible; // LF
+            }
+            recommended = 0;
+            start = fws + 1/* LF */;
+            continue;
+        }
+
+        if (pos >= hdr.length()) {
+            break;
+        }
+
+        // account for already inserted FWS
+        // (NOTE: we are not caring about broken ones here)
+        if (hdr[pos] == '\n') {
+            recommended = eligible = 0;
+            start = pos + 1/* LF */;
+        }
+
+        // Any white space character position is eligible for folding, except of
+        // escape pair (i.e. BSP WSP must not be folded).
+        if (hdr[pos] == ' ' && !ctx.isEscapePair && hdr[pos - 1] != '\n') {
+            eligible = pos;
+            if ((hdr[pos - 1] == ',' || hdr[pos - 1] == ';') && !ctx.isQuotedStr) {
+                recommended = pos;
+            }
+        }
+
+        ctx.push(hdr[pos]);
+    }
+
+    return hdr;
 }
 
 int findHeaderLineEnd(const QByteArray &src, int &dataBegin, bool *folded)
@@ -278,7 +374,7 @@ int findHeaderLineEnd(const QByteArray &src, int &dataBegin, bool *folded)
     return end;
 }
 
-#ifndef HAVE_STRCASESTR
+#if !HAVE_STRCASESTR
 #ifdef WIN32
 #define strncasecmp _strnicmp
 #endif
@@ -333,7 +429,8 @@ int indexOfHeader(const QByteArray &src, const QByteArray &name, int &end, int &
 
 QByteArray extractHeader(const QByteArray &src, const QByteArray &name)
 {
-    int begin, end;
+    int begin;
+    int end;
     bool folded;
     QByteArray result;
 
@@ -453,7 +550,7 @@ void addQuotes_impl(StringType &str, bool forceQuotes)
     bool needsQuotes = false;
     for (int i = 0; i < str.length(); i++) {
         const CharType cur = str.at(i);
-        if (QString(ToString(str)).contains(QRegExp(QStringLiteral("\"|\\\\|=|\\]|\\[|:|;|,|\\.|,|@|<|>|\\)|\\(")))) {
+        if (QString(ToString(str)).contains(QRegularExpression(QStringLiteral("\"|\\\\|=|\\]|\\[|:|;|,|\\.|,|@|<|>|\\)|\\(")))) {
             needsQuotes = true;
         }
         if (cur == CharConverterType('\\') || cur == CharConverterType('\"')) {
@@ -531,10 +628,10 @@ QString removeBidiControlChars(const QString &input)
     const int LRE = 0x202A;
     const int RLE = 0x202B;
     QString result = input;
-    result.remove(LRO);
-    result.remove(RLO);
-    result.remove(LRE);
-    result.remove(RLE);
+    result.remove(QChar(LRO));
+    result.remove(QChar(RLO));
+    result.remove(QChar(LRE));
+    result.remove(QChar(RLE));
     return result;
 }
 
@@ -557,8 +654,9 @@ bool isCryptoPart(Content *content)
 
     if (lowerSubType == "octet-stream") {
         auto cd = content->contentDisposition(false);
-        if (!cd)
+        if (!cd) {
             return false;
+        }
         const auto fileName = cd->filename().toLower();
         return fileName == QLatin1String("msg.asc") || fileName == QLatin1String("encrypted.asc");
     }
@@ -575,23 +673,26 @@ bool isAttachment(Content* content)
     const auto contentType = content->contentType(false);
     // multipart/* is never an attachment itself, message/rfc822 always is
     if (contentType) {
-        if (contentType->isMultipart())
+        if (contentType->isMultipart()) {
             return false;
-        if (contentType->isMimeType("message/rfc822"))
+        }
+        if (contentType->isMimeType("message/rfc822")) {
             return true;
+        }
     }
 
     // the main body part is not an attachment
     if (content->parent()) {
         const auto top = content->topLevel();
-        if (content == top->textContent())
+        if (content == top->textContent()) {
             return false;
+        }
     }
 
     // ignore crypto parts
-    if (isCryptoPart(content))
+    if (isCryptoPart(content)) {
         return false;
-
+    }
 
     // content type or content disposition having a file name set looks like an attachment
     const auto contentDisposition = content->contentDisposition(false);
@@ -604,19 +705,22 @@ bool isAttachment(Content* content)
     }
 
     // "attachment" content disposition is otherwise a good indicator though
-    if (contentDisposition && contentDisposition->disposition() == Headers::CDattachment)
+    if (contentDisposition && contentDisposition->disposition() == Headers::CDattachment) {
         return true;
+    }
 
     return false;
 }
 
 bool hasAttachment(Content *content)
 {
-    if (!content)
+    if (!content) {
         return false;
+    }
 
-    if (isAttachment(content))
+    if (isAttachment(content)) {
         return true;
+    }
 
     // Ok, content itself is not an attachment. now we deal with multiparts
     auto ct = content->contentType(false);

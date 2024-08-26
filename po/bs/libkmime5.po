@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdepimlibs\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-19 02:42+0100\n"
+"POT-Creation-Date: 2021-12-14 00:45+0000\n"
 "PO-Revision-Date: 2012-09-03 13:39+0000\n"
 "Last-Translator: Samir Ribić <Unknown>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -20,30 +20,29 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: kmime_dateformatter.cpp:250
+#: kmime_dateformatter.cpp:247
 #, kde-format
 msgctxt "invalid time specified"
 msgid "unknown"
 msgstr "nepoznato"
 
-#: kmime_dateformatter.cpp:266
+#: kmime_dateformatter.cpp:263
 #, kde-format
 msgid "Today %1"
 msgstr "Danas %1"
 
-#: kmime_dateformatter.cpp:270
+#: kmime_dateformatter.cpp:267
 #, kde-format
 msgid "Yesterday %1"
 msgstr "Juče %1"
 
-#: kmime_dateformatter.cpp:275
+#: kmime_dateformatter.cpp:272
 #, kde-format
 msgctxt "1. weekday, 2. time"
 msgid "%1 %2"
 msgstr "%1 %2"
 
 #: kmime_mdn.cpp:50
-#, kde-format
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "displayed. This is no guarantee that the message has been read or understood."
@@ -51,8 +50,7 @@ msgstr ""
 "Poruka poslana dana ${date} za ${to} sa temom „${subject}“ je prikazana. Ovo "
 "ne garantuje da je poruka pročitana i shvaćena."
 
-#: kmime_mdn.cpp:56
-#, kde-format
+#: kmime_mdn.cpp:55
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "deleted unseen. This is no guarantee that the message will not be \"undeleted"
@@ -62,8 +60,7 @@ msgstr ""
 "nego što je pogledana. Ovo ne garantuje da poruka neće biti kasnije vraćena "
 "i pročitana."
 
-#: kmime_mdn.cpp:63
-#, kde-format
+#: kmime_mdn.cpp:61
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "dispatched. This is no guarantee that the message will not be read later on."
@@ -71,8 +68,7 @@ msgstr ""
 "Poruka poslana dana ${date} za ${to} sa temom „${subject}“ je poslijeđena. "
 "Ovo ne garantuje da poruka neće biti kasnije pročitana."
 
-#: kmime_mdn.cpp:69
-#, kde-format
+#: kmime_mdn.cpp:66
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "processed by some automatic means."
@@ -80,8 +76,7 @@ msgstr ""
 "Poruka poslana dana ${date} za ${to} sa temom „${subject}“ obrađena je na "
 "neki automatski način."
 
-#: kmime_mdn.cpp:74
-#, kde-format
+#: kmime_mdn.cpp:70
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "acted upon. The sender does not wish to disclose more details to you than "
@@ -90,8 +85,7 @@ msgstr ""
 "Na poruku poslanu dana ${date} za ${to} sa temom „${subject}“ je reagovano.. "
 "Pošiljalac ne želi da saopšti išta detaljnije."
 
-#: kmime_mdn.cpp:80
-#, kde-format
+#: kmime_mdn.cpp:75
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "
 "${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "

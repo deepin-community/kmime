@@ -5,15 +5,15 @@
 #
 # Albert Astals Cid <aacid@kde.org>, 2004.
 # Sebastià Pla i Sanz <sps@sastia.com>, 2006.
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2008, 2010, 2014.
+# Josep M. Ferrer <txemaq@gmail.com>, 2008, 2010, 2014.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: kmime\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-19 02:42+0100\n"
+"POT-Creation-Date: 2021-12-14 00:45+0000\n"
 "PO-Revision-Date: 2014-11-18 20:55+0100\n"
-"Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
+"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
@@ -23,30 +23,29 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
-#: kmime_dateformatter.cpp:250
+#: kmime_dateformatter.cpp:247
 #, kde-format
 msgctxt "invalid time specified"
 msgid "unknown"
 msgstr "desconegut"
 
-#: kmime_dateformatter.cpp:266
+#: kmime_dateformatter.cpp:263
 #, kde-format
 msgid "Today %1"
 msgstr "Avui %1"
 
-#: kmime_dateformatter.cpp:270
+#: kmime_dateformatter.cpp:267
 #, kde-format
 msgid "Yesterday %1"
 msgstr "Ahir %1"
 
-#: kmime_dateformatter.cpp:275
+#: kmime_dateformatter.cpp:272
 #, kde-format
 msgctxt "1. weekday, 2. time"
 msgid "%1 %2"
 msgstr "%1 %2"
 
 #: kmime_mdn.cpp:50
-#, kde-format
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "displayed. This is no guarantee that the message has been read or understood."
@@ -54,8 +53,7 @@ msgstr ""
 "El missatge enviat el ${date} a ${to} amb l'assumpte «${subject}» ha estat "
 "mostrat. Això no és garantia que aquest hagi estat llegit o comprés."
 
-#: kmime_mdn.cpp:56
-#, kde-format
+#: kmime_mdn.cpp:55
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "deleted unseen. This is no guarantee that the message will not be \"undeleted"
@@ -65,8 +63,7 @@ msgstr ""
 "suprimit sense veure'l. Això no és garantia que aquest no hagi estat "
 "«recuperat» i llegit més tard."
 
-#: kmime_mdn.cpp:63
-#, kde-format
+#: kmime_mdn.cpp:61
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "dispatched. This is no guarantee that the message will not be read later on."
@@ -74,8 +71,7 @@ msgstr ""
 "El missatge enviat el ${date} a ${to} amb l'assumpte «${subject}» ha estat "
 "despatxat. Això no és garantia que aquest no hagi estat llegit més tard."
 
-#: kmime_mdn.cpp:69
-#, kde-format
+#: kmime_mdn.cpp:66
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "processed by some automatic means."
@@ -83,8 +79,7 @@ msgstr ""
 "El missatge enviat el ${date} a ${to} amb l'assumpte «${subject}» s'ha "
 "processat amb algun mitjà automàtic."
 
-#: kmime_mdn.cpp:74
-#, kde-format
+#: kmime_mdn.cpp:70
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "acted upon. The sender does not wish to disclose more details to you than "
@@ -93,8 +88,7 @@ msgstr ""
 "El missatge enviat el ${date} a ${to} amb l'assumpte «${subject}» ha estat "
 "arxivat. El remitent no desitja proporcionar més detalls que aquests."
 
-#: kmime_mdn.cpp:80
-#, kde-format
+#: kmime_mdn.cpp:75
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "
 "${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "

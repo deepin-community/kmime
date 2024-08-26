@@ -24,7 +24,22 @@ target_sources(KF5Mime PRIVATE
    kmime_dateformatter.cpp
    kmime_codecs.cpp
    kmime_types.cpp
-)
+
+   kmime_charfreq.h
+   kmime_util.h
+   kmime_mdn.h
+   kmime_parsers.h
+   kmime_header_parsing.h
+   kmime_headerfactory_p.h
+   kmime_content.h
+   kmime_contentindex.h
+   kmime_headers.h
+   kmime_message.h
+   kmime_newsarticle.h
+   kmime_dateformatter.h
+   kmime_codecs.h
+   kmime_types.h
+   )
 
 ecm_qt_declare_logging_category(KF5Mime
        HEADER kmime_debug.h
@@ -37,7 +52,7 @@ if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
 endif()
 generate_export_header(KF5Mime BASE_NAME KMime)
 
-target_include_directories(KF5Mime INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KMime>")
+target_include_directories(KF5Mime INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF}/KMime>")
 target_include_directories(KF5Mime PUBLIC "$<BUILD_INTERFACE:${KMime_SOURCE_DIR}/src;${KMime_BINARY_DIR}/src;${KMime_BINARY_DIR}>")
 
 if (WIN32)
@@ -52,6 +67,9 @@ PRIVATE
     KF5::Codecs
     ${_kmime_extra_libs}
 )
+if (TARGET Qt6::Core5Compat)
+    target_link_libraries(KF5Mime PRIVATE Qt6::Core5Compat) # QTextCodec
+endif()
 
 set_target_properties(KF5Mime PROPERTIES
     VERSION ${KMIME_VERSION}
@@ -59,7 +77,7 @@ set_target_properties(KF5Mime PROPERTIES
     EXPORT_NAME Mime
 )
 
-install(TARGETS KF5Mime EXPORT KF5MimeTargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS KF5Mime EXPORT KF5MimeTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
 
 # Don't install them but needed to compile kdepimlibs
 ecm_generate_headers(KMime_CamelCase_HEADERS
@@ -87,10 +105,33 @@ install(FILES
          kmime_dateformatter.h
          kmime_util.h
          kmime_types.h
-         DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KMime/kmime COMPONENT Devel
+         DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KMime/kmime COMPONENT Devel
 )
+
+if (BUILD_QCH)
+    ecm_add_qch(
+        KF5Mime_QCH
+        NAME KMime
+        BASE_NAME KF5Mime
+        VERSION ${PIM_VERSION}
+        ORG_DOMAIN org.kde
+        SOURCES # using only public headers, to cover only public API
+            ${KMime_CamelCase_HEADERS}
+        MD_MAINPAGE "${CMAKE_SOURCE_DIR}/README.md"
+        #IMAGE_DIRS "${CMAKE_SOURCE_DIR}/docs/pics"
+        LINK_QCHS
+            Qt5Core_QCH
+        INCLUDE_DIRS
+            ${CMAKE_CURRENT_BINARY_DIR}
+        BLANK_MACROS
+            KMIME_EXPORT
+        TAGFILE_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
+        QCH_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
+        COMPONENT Devel
+    )
+endif()
 
 ecm_qt_install_logging_categories(EXPORT KMIME FILE kmime.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 
-ecm_generate_pri_file(BASE_NAME KMime LIB_NAME KF5Mime DEPS "" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF5}/KMime)
+ecm_generate_pri_file(BASE_NAME KMime LIB_NAME KF5Mime DEPS "" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF}/KMime)
 install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})

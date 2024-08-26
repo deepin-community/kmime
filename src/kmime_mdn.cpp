@@ -33,6 +33,7 @@
 #else
 # include <unistd.h>
 #endif
+#include <KLazyLocalizedString>
 
 namespace KMime
 {
@@ -43,45 +44,37 @@ namespace MDN
 static const struct {
     DispositionType dispositionType;
     const char *string;
-    const char *description;
-} dispositionTypes[] = {
-    {
-        Displayed, "displayed",
-        I18N_NOOP("The message sent on ${date} to ${to} with subject "
-        "\"${subject}\" has been displayed. This is no guarantee that "
-        "the message has been read or understood.")
-    },
-    {
-        Deleted, "deleted",
-        I18N_NOOP("The message sent on ${date} to ${to} with subject "
-        "\"${subject}\" has been deleted unseen. This is no guarantee "
-        "that the message will not be \"undeleted\" and nonetheless "
-        "read later on.")
-    },
-    {
-        Dispatched, "dispatched",
-        I18N_NOOP("The message sent on ${date} to ${to} with subject "
-        "\"${subject}\" has been dispatched. This is no guarantee "
-        "that the message will not be read later on.")
-    },
-    {
-        Processed, "processed",
-        I18N_NOOP("The message sent on ${date} to ${to} with subject "
-        "\"${subject}\" has been processed by some automatic means.")
-    },
-    {
-        Denied, "denied",
-        I18N_NOOP("The message sent on ${date} to ${to} with subject "
-        "\"${subject}\" has been acted upon. The sender does not wish "
-        "to disclose more details to you than that.")
-    },
-    {
-        Failed, "failed",
-        I18N_NOOP("Generation of a Message Disposition Notification for the "
-        "message sent on ${date} to ${to} with subject \"${subject}\" "
-        "failed. Reason is given in the Failure: header field below.")
-    }
-};
+    const KLazyLocalizedString description;
+} dispositionTypes[] = {{Displayed,
+                         "displayed",
+                         kli18n("The message sent on ${date} to ${to} with subject "
+                                "\"${subject}\" has been displayed. This is no guarantee that "
+                                "the message has been read or understood.")},
+                        {Deleted,
+                         "deleted",
+                         kli18n("The message sent on ${date} to ${to} with subject "
+                                "\"${subject}\" has been deleted unseen. This is no guarantee "
+                                "that the message will not be \"undeleted\" and nonetheless "
+                                "read later on.")},
+                        {Dispatched,
+                         "dispatched",
+                         kli18n("The message sent on ${date} to ${to} with subject "
+                                "\"${subject}\" has been dispatched. This is no guarantee "
+                                "that the message will not be read later on.")},
+                        {Processed,
+                         "processed",
+                         kli18n("The message sent on ${date} to ${to} with subject "
+                                "\"${subject}\" has been processed by some automatic means.")},
+                        {Denied,
+                         "denied",
+                         kli18n("The message sent on ${date} to ${to} with subject "
+                                "\"${subject}\" has been acted upon. The sender does not wish "
+                                "to disclose more details to you than that.")},
+                        {Failed,
+                         "failed",
+                         kli18n("Generation of a Message Disposition Notification for the "
+                                "message sent on ${date} to ${to} with subject \"${subject}\" "
+                                "failed. Reason is given in the Failure: header field below.")}};
 
 static const int numDispositionTypes =
     sizeof dispositionTypes / sizeof *dispositionTypes;
@@ -203,7 +196,7 @@ static QByteArray dispositionField(DispositionType d, ActionMode a, SendingMode 
 static QByteArray finalRecipient(const QString &recipient)
 {
     if (recipient.isEmpty()) {
-        return QByteArray();
+      return {};
     } else {
         return "Final-Recipient: rfc822; "
                + encodeRFC2047String(recipient, "utf-8") + '\n';
@@ -213,7 +206,7 @@ static QByteArray finalRecipient(const QString &recipient)
 static QByteArray orginalRecipient(const QByteArray &recipient)
 {
     if (recipient.isEmpty()) {
-        return QByteArray();
+      return {};
     } else {
         return "Original-Recipient: " + recipient + '\n';
     }
@@ -222,7 +215,7 @@ static QByteArray orginalRecipient(const QByteArray &recipient)
 static QByteArray originalMessageID(const QByteArray &msgid)
 {
     if (msgid.isEmpty()) {
-        return QByteArray();
+      return {};
     } else {
         return "Original-Message-ID: " + msgid + '\n';
     }
@@ -281,12 +274,12 @@ QString descriptionFor(DispositionType d,
 {
     for (int i = 0 ; i < numDispositionTypes ; ++i) {
         if (dispositionTypes[i].dispositionType == d) {
-            return i18n(dispositionTypes[i].description);
+            return dispositionTypes[i].description.toString();
         }
     }
     qCWarning(KMIME_LOG) << "KMime::MDN::descriptionFor(): No such disposition type:"
                << static_cast<int>(d);
-    return QString();
+    return {};
 }
 
 } // namespace MDN

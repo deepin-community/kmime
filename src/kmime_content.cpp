@@ -29,7 +29,7 @@
 #include "kmime_util_p.h"
 
 #include <KCharsets>
-#include <KCodecs/KCodecs>
+#include <KCodecs>
 
 
 #include <QTextCodec>
@@ -199,7 +199,7 @@ QByteArray Content::assembleHeaders()
     QByteArray newHead;
     for (const Headers::Base *h : std::as_const(d->headers)) {
         if (!h->isEmpty()) {
-            newHead += h->as7BitString() + '\n';
+            newHead += foldHeader(h->as7BitString()) + '\n';
         }
     }
 
@@ -231,8 +231,8 @@ QByteArray Content::encodedContent(bool useCrLf)
     QByteArray encodedContentData = head();           // return value; initialise with the head data
     const QByteArray encodedBodyData = encodedBody();
 
-    /* Make sure, that head and body have at least two newlines as seperator, otherwise add one.
-     * If we have enough newlines as sperator, than we should not change the number of newlines
+    /* Make sure that head and body have at least two newlines as separator, otherwise add one.
+     * If we have enough newlines as sperator, then we should not change the number of newlines
      * to not break digital signatures
      */
     if (!encodedContentData.endsWith("\n\n") &&
@@ -333,7 +333,7 @@ QByteArray Content::decodedContent()
             QScopedPointer<KCodecs::Decoder> decoder(codec->makeDecoder());
             QByteArray::const_iterator inputIt = d_ptr->body.constBegin();
             QByteArray::iterator resultIt = ret.begin();
-            decoder->decode(inputIt, d_ptr->body.constEnd(), resultIt, ret.end());
+            decoder->decode(inputIt, d_ptr->body.constEnd(), resultIt, ret.constEnd());
             ret.truncate(resultIt - ret.begin());
             break;
         }
@@ -364,7 +364,7 @@ QByteArray Content::decodedContent()
 QString Content::decodedText(bool trimText, bool removeTrailingNewlines)
 {
     if (!d_ptr->decodeText(this)) {   //this is not a text content !!
-        return QString();
+      return {};
     }
 
     bool ok = true;
@@ -440,15 +440,17 @@ QVector<Content*> Content::attachments()
     QVector<Content*> result;
 
     auto ct = contentType(false);
-    if (ct && ct->isMultipart() && !ct->isSubtype("related") && !ct->isSubtype("alternative")) {
-        const QVector<Content*> contentsList = contents();
-        result.reserve(contentsList.count());
-        for (Content *child : contentsList) {
-            if (isAttachment(child))
-                result.push_back(child);
-            else
-                result += child->attachments();
+    if (ct && ct->isMultipart() &&
+        !ct->isSubtype("related") /* && !ct->isSubtype("alternative")*/) {
+      const QVector<Content *> contentsList = contents();
+      result.reserve(contentsList.count());
+      for (Content *child : contentsList) {
+        if (isAttachment(child)) {
+          result.push_back(child);
+        } else {
+          result += child->attachments();
         }
+      }
     }
 
     return result;
@@ -555,7 +557,7 @@ void Content::removeContent(Content *c, bool del)
 
     // If only one content is left, turn this content into a single-part.
     if (d->multipartContents.count() == 1) {
-        Content *main = d->multipartContents.first();
+        Content *main = d->multipartContents.constFirst();
 
         // Move all headers from the old subcontent to ourselves.
         // NOTE: This also sets the new Content-Type.
@@ -653,12 +655,13 @@ bool Content::removeHeader(const char *type)
 {
     Q_D(Content);
     const auto endIt = d->headers.end();
-    for (auto it = d->headers.begin(); it != endIt; ++it)
+    for (auto it = d->headers.begin(); it != endIt; ++it) {
         if ((*it)->is(type)) {
             delete(*it);
             d->headers.erase(it);
             return true;
         }
+    }
 
     return false;
 }
@@ -790,7 +793,7 @@ ContentIndex KMime::Content::indexForContent(Content *content) const
             return ci;
         }
     }
-    return ContentIndex(); // not found
+    return {}; // not found
 }
 
 bool Content::isTopLevel() const
@@ -848,7 +851,7 @@ Message::Ptr Content::bodyAsMessage() const
     if (bodyIsMessage() && d_ptr->bodyAsMessage) {
         return d_ptr->bodyAsMessage;
     } else {
-        return Message::Ptr();
+      return {};
     }
 }
 

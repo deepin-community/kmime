@@ -23,7 +23,7 @@
 #include <config-kmime.h>
 
 #include <QTextStream>
-
+#include <QIODevice>
 #include <KLocalizedString>
 
 using namespace KMime;
@@ -106,10 +106,7 @@ DateFormatter::DateFormatter(FormatType ftype) :
     d->mFormat = ftype;
 }
 
-DateFormatter::~DateFormatter()
-{
-    delete d;
-}
+DateFormatter::~DateFormatter() = default;
 
 DateFormatter::FormatType DateFormatter::format() const
 {
@@ -137,7 +134,7 @@ QString DateFormatter::dateString(time_t t, const QString &lang, bool shortForma
     case Custom:
         return d->custom(t);
     }
-    return QString();
+    return {};
 }
 
 QString DateFormatter::dateString(const QDateTime &dt, const QString &lang, bool shortFormat) const
@@ -161,7 +158,7 @@ QString DateFormatterPrivate::rfc2822(time_t t)
 QString DateFormatterPrivate::custom(time_t t) const
 {
     if (mCustomFormat.isEmpty()) {
-        return QString();
+      return {};
     }
 
     int z = mCustomFormat.indexOf(QLatin1Char('Z'));
@@ -191,11 +188,11 @@ QString DateFormatter::customFormat() const
 
 QByteArray DateFormatterPrivate::zone(time_t t)
 {
-#if defined(HAVE_TIMEZONE) || defined(HAVE_TM_GMTOFF)
+#if HAVE_TIMEZONE || HAVE_TM_GMTOFF
     struct tm *local = localtime(&t);
 #endif
 
-#if defined(HAVE_TIMEZONE)
+#if HAVE_TIMEZONE
 
     //hmm, could make hours & mins static
     int secs = qAbs(timezone);
@@ -212,7 +209,7 @@ QByteArray DateFormatterPrivate::zone(time_t t)
         }
     }
 
-#elif defined(HAVE_TM_GMTOFF)
+#elif HAVE_TM_GMTOFF
 
     int secs = qAbs(local->tm_gmtoff);
     int neg  = (local->tm_gmtoff < 0) ? 1 : 0;

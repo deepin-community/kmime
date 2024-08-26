@@ -1,6 +1,6 @@
 include(ECMMarkAsTest)
 
-find_package(Qt5Test ${QT_REQUIRED_VERSION} CONFIG REQUIRED)
+find_package(Qt${QT_MAJOR_VERSION}Test ${QT_REQUIRED_VERSION} CONFIG REQUIRED)
 
 # Turn exceptions on
 kde_enable_exceptions()
@@ -21,6 +21,9 @@ macro(ADD_KMIME_TEST)
       Qt::Test
       KF5::Codecs
     )
+    if (TARGET Qt6::Core5Compat)
+        target_link_libraries(${_testName} Qt6::Core5Compat) # QTextCodec
+    endif()
     set_target_properties(${_testName} PROPERTIES COMPILE_FLAGS -DTEST_DATA_DIR="\\"${CMAKE_CURRENT_SOURCE_DIR}/data\\"" )
     ecm_mark_as_test(${_testName})
     set_tests_properties(kmime-${_testName} PROPERTIES ENVIRONMENT "LANG=C")
